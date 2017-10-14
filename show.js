@@ -1,10 +1,11 @@
-var automatonCells;
-var aCells = [];
-var team1 = [];
-var team2 = [];
-var scl = 20;
-var cellCount = 50;
-
+var field = [];
+var scl = 5;
+var stop = false;
+var fireFighterResponse = 0.0;
+var igniteChance = 1-fireFighterResponse;
+var adjacentHit;
+var toChange = [];
+var count = 0;
 
 //todo
 // create seperate arrays for prey and predators
@@ -16,75 +17,90 @@ var cellCount = 50;
 
 
 
-
-
-
-
 function setup(){
   createCanvas(600, 400);
-  //automatonCells = new automatons();
-  frameRate(10);
-  createCells();
+  frameRate(20);
+  start();
 }
 
-function createCells(){
-  for(var i=0; i<cellCount; i++){
-    aCells[i] = new automatons();
-  }
+function start(){
+    for(var i=0; i<600; i+=scl){
+        field[i] = [];
+        for(var j=0; j<400; j+=scl){
+            field[i][j] = new automatons(i, j);
+        }
+    }
 }
 
-function createChild(cr){
-  //console.log("check");
-  cellCount++;
-  aCells[cellCount-1] = new automatons();
-  aCells[cellCount-1].color = cr;
-  cellCount++;
-  aCells[cellCount-1] = new automatons();
-  aCells[cellCount-1].color = cr;
-  cellCount++;
-  aCells[cellCount-1] = new automatons();
-  aCells[cellCount-1].color = cr;
+function updateCells(i, j){
+    adjacentHit = Math.random();
+    //if (field[i][j].color==2) console.log(adjacentHit);
+    if(field[i][j].color==2){
+
+        if(j>1 && field[i][j-scl].color==1){
+            //field[i][j-scl].color = 2;
+            toChange[count] = [i, j-scl];
+            count++;
+        }
+        //console.log("i:"+i+" j:"+j);
+        if(j<400-scl && field[i][j+scl].color==1){
+
+            // field[i][j+scl].color = 2;
+            toChange[count] = [i, j+scl];
+            count++;
+        }
+        if(i>1 && field[i-scl][j].color==1){
+            // field[i-scl][j].color = 2;
+            toChange[count] = [i-scl, j];
+            count++;
+        }
+        if(i<600-scl && field[i+scl][j].color==1){
+            // field[i+scl][j].color = 2;
+            toChange[count] = [i+scl, j];
+            count++;
+        }
+        if(j>1 && i>1 && field[i-scl][j-scl].color==1){
+            // field[i-scl][j-scl].color = 2;
+            toChange[count] = [i-scl, j-scl];
+            count++;
+        }
+        if(j<400-scl && i<600-scl && field[i+scl][j+scl].color==1){
+            // field[i+scl][j+scl].color = 2;
+            toChange[count] = [i+scl, j+scl];
+            count++;
+        }
+        if(i>1 && j<400-scl && field[i-scl][j+scl].color==1){
+            // field[i-scl][j+scl].color = 2;
+            toChange[count] = [i-scl, j+scl];
+            count++;
+        }
+        if(i<600-scl && j>1 && field[i+scl][j-scl].color==1){
+            // field[i+scl][j-scl].color = 2;
+            toChange[count] = [i+scl, j-scl];
+            count++;
+        }
+    }
+    if(field[i][j].color==0){
+
+    }
 
 }
 
 function draw(){
-  background(100);
-  noStroke();
-  for(var i=0; i<cellCount; i++){
-    //fix this
-    var nearest = 600*600+400*400;
-    var index = -1;
-    var toEat = -1;
-    for(var j=0; j<cellCount; j++){
-      if(aCells[i].color>1 && aCells[j].strength>0){
-        var distance = dist(aCells[i].x, aCells[i].y, aCells[j].x, aCells[j].y);
-        if(aCells[j].color<=1 && distance<nearest){
-          if(distance==0){
-            console.log("ate");
-            toEat = j;
-          }else{
-            nearest = dist;
-            index = j;
-          }
+    if(!stop){
+        background(100);
+        noStroke();
+        toChange = [];
+        count = 0;
+        for(var i=0; i<600; i+=scl){
+            for(var j=0; j<400; j+=scl){
+                field[i][j].update();
+                updateCells(i, j);
+                field[i][j].show();
+            }
         }
-      }
+        for(var k=0; k<toChange.length; k++){
+            field[toChange[k][0]][toChange[k][1]].color = 2;
+        }
     }
-    aCells[i].update();
-    if (index!=-1){
-      if(aCells[index].x>aCells[i].x){
-        aCells[i].x += scl;
-      }else if(aCells[index].x<aCells[i].x){
-        aCells[i].x -= scl;
-      }else if(aCells[index].y>aCells[i].y){
-        aCells[i].y += scl;
-      }else if(aCells[index].y<aCells[i].y){
-        aCells[i].y -= scl;
-      }
-    }
-    if(toEat!=-1){
-      aCells[toEat].strength = 0;
-    }
-    if(aCells[i].strength==400) createChild(aCells[i].color);
-    aCells[i].show();
-  }
 }

@@ -1,39 +1,41 @@
-function automatons(){
-  this.x = floor(Math.random()*(580/scl))*scl;
-  this.y = floor(Math.random()*(380/scl))*scl;
-  this.strength = floor(Math.random()*500);
-  this.color = Math.random()*2;
-
-
+function automatons(i, j){
+  this.x = i;
+  this.y = j;
+  this.color = 0;
+  this.strength = 5;
+  this.grow = 0.01;
+  this.fire = 0.0001;
+  var eventHappens;
 
   this.update = function(){
-    this.randomMove = Math.random()*4;
-    if(this.color<=1){
-    if(this.x==0){
-      this.x += scl;
-    }else if(this.x==600-scl){
-      this.x -= scl;
-    }else if(this.y==0){
-      this.y += scl;
-    }else if(this.y==400-scl){
-      this.y -= scl;
-    }else{
-      if(this.randomMove<1) this.x+=scl;
-      else if(this.randomMove<2) this.y+=scl;
-      else if(this.randomMove<3) this.x-=scl;
-      else if(this.randomMove<=4) this.y-=scl;
-    }
-    }
-    this.strength--;
+      this.eventHappens = Math.random();
+      if(this.eventHappens<=this.fire && this.color==1){
+          this.color = 2;
+      }else if(this.eventHappens<=this.grow && this.color==0 && this.strength>0){
+          this.color = 1;
+      }
+      if(this.color == 2){
+          this.strength--;
+      }else if(this.color==-1){
+          if(this.strength==5) this.color = 0;
+          else this.strength++;
+      }
+      if(this.strength == 0){
+          this.color = -1;
+          this.strength = 0;
+      }
   };
 
   this.show = function(){
-    if(this.strength>0){
-    if(this.color<=1)
-      fill(0, 128, 128);
+    if(this.color==1)
+        fill(34,139,34);
+        //fill(255,255,255);
+    else if(this.color==2)
+        fill(178,34,34);
+        //fill(230,230,236);
     else
-      fill(0, 0, 0);
+        fill(256,256,256);
+        //fill(0,0,256);
     rect(this.x, this.y, scl, scl);
-    }
   };
 }
