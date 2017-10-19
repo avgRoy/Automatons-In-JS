@@ -1,0 +1,75 @@
+body {
+  background-color: #f6f6f6;
+  border-top: 15px solid #008080;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+/*for mobile*/
+@media screen and (min-width: 660px){
+  body {
+    border: 15px solid #008080;
+  }
+}
+
+.title{
+  font-family: 'Open Sans:400', sans-serif;
+  font-weight: 400;
+  padding: 0;
+  margin: auto;
+  margin-top: 60px;
+  margin-left: 26%;
+}
+
+/*for mobile*/
+@media screen and (max-width: 660px){
+  .title{
+    text-align: center;
+    margin-left: 0;
+  }
+}
+
+.line{
+  background-color: #979797;
+  width: 50%;
+  height: 1px;
+  margin-top: 13px;
+  margin-left: 25%;
+}
+
+.sketched{
+    text-align: center;
+    margin-top: 40px;
+}
+
+.icon1{
+  padding: 0;
+  margin: auto;
+  text-align: right;
+  margin-right: 26.5%;
+  margin-top: -45px;
+}
+
+/*for mobile*/
+@media screen and (max-width: 660px){
+  .icon1{
+    text-align: center;
+    left: 25%;
+    margin-right: 0;
+    margin-top: 15px;
+  }
+}
+
+/*icon color change on hover*/
+.fa-h-square:hover{
+  color: #008080;
+}
+
+.fa-github-square:hover{
+  color: #333;
+}
+
+.fa-twitter-square:hover{
+  color: #1da1f2;
+}
