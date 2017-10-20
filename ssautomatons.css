@@ -6,13 +6,6 @@ body {
   height: 100%;
 }
 
-/*for mobile*/
-@media screen and (min-width: 660px){
-  body {
-    border: 15px solid #008080;
-  }
-}
-
 .title{
   font-family: 'Open Sans:400', sans-serif;
   font-weight: 400;
@@ -40,36 +33,15 @@ body {
 
 .sketched{
     text-align: center;
+    margin-top: 20px;
+}
+
+.fRate{
+    text-align: center;
     margin-top: 40px;
 }
 
-.icon1{
-  padding: 0;
-  margin: auto;
-  text-align: right;
-  margin-right: 26.5%;
-  margin-top: -45px;
-}
-
-/*for mobile*/
-@media screen and (max-width: 660px){
-  .icon1{
+.cSelect{
     text-align: center;
-    left: 25%;
-    margin-right: 0;
-    margin-top: 15px;
-  }
-}
-
-/*icon color change on hover*/
-.fa-h-square:hover{
-  color: #008080;
-}
-
-.fa-github-square:hover{
-  color: #333;
-}
-
-.fa-twitter-square:hover{
-  color: #1da1f2;
+    margin-top: -40px;
 }

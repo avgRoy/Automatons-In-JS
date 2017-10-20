@@ -9,7 +9,7 @@ function cells(i, j){
     //game of life
     if(example==0){
         if(this.color == 1)
-            fill(255,255,255);
+            fill(246,246,246);
         else if(this.color==2)
             fill(255, 0, 0);
         else
@@ -25,7 +25,7 @@ function cells(i, j){
             fill(223,90,90);
             //fill(255, 255, 255);
         else
-            fill(256,256,256);
+            fill(246,246,246);
     }
 
     //all drawn same

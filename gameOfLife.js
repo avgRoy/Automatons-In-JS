@@ -3,7 +3,7 @@ var nextGeneration = [];
 var scl = 10;
 var count = 0;
 var neighbors = 0;
-var fRate = 20;
+var fRate = 25;
 var stop = true;
 
 //example 0 -> game of life 1-> fire
@@ -28,16 +28,134 @@ function setup(){
     var canvas = createCanvas(680, 460);
     canvas.parent('sketch-holder');
     start();
+
+    sel2 = createSelect();
+    sel2.parent('canvasSelector');
+    sel2.option("Conway's: Random");
+    sel2.option("Fire Simulation");
+    sel2.option("Conway's: Glider Gun");
+    sel2.option("Conway's: Pulsar");
+    sel2.option("Conway's: Pentadecathlon");
+    sel2.option("Conway's: Blinker");
+    sel2.selected("Fire Simulation");
+    sel2.changed(changeCanvas);
+
+    sel = createSelect();
+    sel.parent('frameRateSelector');
+    sel.option(5);
+    sel.option(10);
+    sel.option(15);
+    sel.option(20);
+    sel.option(25);
+    sel.option(30);
+    sel.option(45);
+    sel.option(60);
+    sel.option(120);
+    sel.selected(25);
+    sel.changed(changeFrames);
 }
 
 function start(){
     frames();
-    if(example==0)startGameOfLife();
-    if(example==1)startFire();
+    if(example==0) startGameOfLife();
+    if(example==1) startFire();
 }
 
 function frames(){
     frameRate(fRate);
+}
+
+function gameStart(){
+    stop = !stop;
+    example = 0;
+    randomStart = true;
+    gliderGun = false;
+    pulsar = false;
+    pentadecathlon = false;
+    blinker = false;
+    start();
+    stop = !stop;
+}
+
+function fireStart(){
+    stop = !stop;
+    example = 1;
+    randomStart = false;
+    gliderGun = false;
+    pulsar = false;
+    pentadecathlon = false;
+    blinker = false;
+    start();
+    stop = !stop;
+}
+
+function gliderGunStart(){
+    stop = !stop;
+    example = 0;
+    randomStart = false;
+    gliderGun = true;
+    pulsar = false;
+    pentadecathlon = false;
+    blinker = false;
+    start();
+    stop = !stop;
+}
+
+function pulsarStart(){
+    stop = !stop;
+    example = 0;
+    randomStart = false;
+    gliderGun = false;
+    pulsar = true;
+    pentadecathlon = false;
+    blinker = false;
+    start();
+    stop = !stop;
+}
+
+function pentadecathlonStart(){
+    stop = !stop;
+    example = 0;
+    randomStart = false;
+    gliderGun = false;
+    pulsar = false;
+    pentadecathlon = true;
+    blinker = false;
+    start();
+    stop = !stop;
+}
+
+function blinkerStart(){
+    stop = !stop;
+    example = 0;
+    randomStart = false;
+    gliderGun = false;
+    pulsar = false;
+    pentadecathlon = false;
+    blinker = true;
+    start();
+    stop = !stop;
+}
+
+function changeFrames() {
+  fRate = parseInt(sel.value());
+  frames();
+}
+
+function changeCanvas(){
+    var newCanvas = sel2.value();
+    if(newCanvas=="Fire Simulation") {
+        fireStart();
+    }
+    else if(newCanvas=="Conway's: Random") {
+        gameStart();
+    }
+    else if(newCanvas=="Conway's: Glider Gun"){
+         gliderGunStart();
+    }
+    else if(newCanvas=="Conway's: Pulsar") pulsarStart();
+    else if(newCanvas=="Conway's: Pentadecathlon") pentadecathlonStart();
+    else if(newCanvas=="Conway's: Blinker") blinkerStart();
 }
 
 function startGameOfLife(){
